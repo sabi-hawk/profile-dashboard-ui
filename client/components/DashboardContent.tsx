@@ -84,6 +84,7 @@ export function DashboardContent() {
   // Handle slider drag start
   const handleSliderMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragging(true);
     startXRef.current = e.clientX;
     startStrengthRef.current = passwordStrength;
@@ -101,7 +102,7 @@ export function DashboardContent() {
     
     setPasswordStrength(Math.max(0, Math.min(100, newStrength)));
     
-    if (newStrength >= 100) {
+    if (newStrength >= 90) {
       setIsPasswordVerified(true);
     }
   };
@@ -109,14 +110,16 @@ export function DashboardContent() {
   const handleSliderMouseMove = (e: MouseEvent) => {
     if (!isDragging || !sliderRef.current) return;
     
+    e.preventDefault();
+    
     const rect = sliderRef.current.getBoundingClientRect();
     const clickX = e.clientX - rect.left;
     const newStrength = (clickX / rect.width) * 100;
     
     setPasswordStrength(Math.max(0, Math.min(100, newStrength)));
     
-    // If dragged to 100%, mark as verified
-    if (newStrength >= 100) {
+    // If dragged to 90% or more, mark as verified
+    if (newStrength >= 90) {
       setIsPasswordVerified(true);
     }
   };
@@ -129,6 +132,7 @@ export function DashboardContent() {
 
   // Touch events for mobile
   const handleSliderTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
     setIsDragging(true);
     startXRef.current = e.touches[0].clientX;
     startStrengthRef.current = passwordStrength;
@@ -137,14 +141,21 @@ export function DashboardContent() {
   const handleSliderTouchMove = (e: React.TouchEvent) => {
     if (!isDragging || !sliderRef.current) return;
     
+    e.preventDefault();
+    
     const rect = sliderRef.current.getBoundingClientRect();
     const touchX = e.touches[0].clientX - rect.left;
-    const newStrength = (touchX / rect.width) * 100;
+    const touchY = e.touches[0].clientY - rect.top;
     
-    setPasswordStrength(Math.max(0, Math.min(100, newStrength)));
-    
-    if (newStrength >= 100) {
-      setIsPasswordVerified(true);
+    // Only update if touch is within the slider bounds
+    if (touchY >= 0 && touchY <= rect.height) {
+      const newStrength = (touchX / rect.width) * 100;
+      setPasswordStrength(Math.max(0, Math.min(100, newStrength)));
+      
+      // If dragged to 90% or more, mark as verified
+      if (newStrength >= 90) {
+        setIsPasswordVerified(true);
+      }
     }
   };
 
@@ -279,7 +290,7 @@ export function DashboardContent() {
                 {/* Password Strength Slider */}
                 <div 
                   ref={sliderRef}
-                  className="relative h-[34px] bg-gray-200 rounded cursor-pointer select-none overflow-hidden w-48"
+                  className="relative h-[34px] bg-gray-200 rounded cursor-pointer select-none w-64 border border-gray-300 shadow-sm"
                   onMouseDown={handleSliderMouseDown}
                   onClick={handleSliderClick}
                   onTouchStart={handleSliderTouchStart}
@@ -289,33 +300,31 @@ export function DashboardContent() {
                   <div 
                     className={cn(
                       "h-full transition-all duration-100 rounded",
-                      passwordStrength >= 100 ? "bg-green-500" : "bg-teal-light"
+                      passwordStrength >= 90 ? "bg-primary" : "bg-teal-light"
                     )}
                     style={{ width: `${passwordStrength}%` }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center text-xs font-medium">
-                    {passwordStrength >= 100 ? (
-                      <span className="text-white">Verified! ✓</span>
+                    {passwordStrength >= 90 ? (
+                      <span className="text-white">Verified</span>
                     ) : (
-                      <>
-                        <span className="text-white">Hold and d</span>
-                        <span className="text-gray-600">rag to the right</span>
-                      </>
+                      <span className="text-gray-800">Hold and drag to the right</span>
                     )}
                   </div>
                   <div 
                     className={cn(
-                      "absolute top-0 h-full w-[42px] cursor-pointer flex items-center justify-center shadow-md rounded transition-all duration-100",
-                      passwordStrength >= 100 
-                        ? "bg-green-500 border-2 border-white" 
+                      "absolute top-0 h-full w-[42px] cursor-pointer flex items-center justify-center shadow-md rounded transition-all duration-100 z-10",
+                      passwordStrength >= 90 
+                        ? "bg-primary border-2 border-white" 
                         : "bg-white border border-gray-300"
                     )}
-                    style={{ left: `${passwordStrength}%`, transform: 'translateX(-50%)' }}
+                    style={{ 
+                      left: `${Math.max(0, Math.min(100, passwordStrength))}%`, 
+                      transform: 'translateX(-50%)' 
+                    }}
                   >
-                    {passwordStrength >= 100 ? (
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 3L4.5 8.5L2 6" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                    {passwordStrength >= 90 ? (
+                      <img src="/assets/tick.svg" alt="Verified" className="w-4 h-4" />
                     ) : (
                       <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5.54395 5.33496L0.743164 10.6689L0 10L4.19922 5.33496L0 0.668945L0.743164 0L5.54395 5.33496ZM11.5439 5.33496L6.74316 10.6689L6 10L10.1992 5.33496L6 0.668945L6.74316 0L11.5439 5.33496Z" fill="#999999"/>
@@ -560,13 +569,15 @@ export function DashboardContent() {
             <div className="mt-[30px] border-t border-gray-border-light pt-[30px]">
               {/* Logo Upload */}
               <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <div className="h-[100px] w-[100px] rounded-lg bg-gradient-to-br from-teal-light to-teal"></div>
+                <div className="h-[100px] w-[100px] rounded-lg bg-gradient-to-br from-teal-light to-teal flex items-center justify-center">
+                  <img src="/assets/logo.svg" alt="LOGO" className="w-12 h-12" />
+                </div>
                 <div className="flex-1">
                   <div className="mb-4 flex flex-wrap gap-4">
                     <button className="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 shadow">
                       Upload Your Logo
                     </button>
-                    <button className="rounded border border-red-error px-4 py-2 text-sm font-medium text-red-error hover:bg-red-50">
+                    <button className="rounded bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600">
                       Reset
                     </button>
                   </div>
