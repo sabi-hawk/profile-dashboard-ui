@@ -236,37 +236,37 @@ export function PersonalDetails({
             </select>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-[30px]">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-primary">Email</label>
-              <div className="flex">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => onEmailChange(e.target.value)}
-                  className="flex-1 rounded-l border border-r-0 border-gray-border-light px-3 py-2.5 text-sm text-gray-primary focus:border-primary focus:outline-none"
-                />
-                <div className="flex items-center rounded-r border border-l-0 border-gray-border-light bg-gray-50 px-3 text-sm text-primary">
-                  Verified
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-[30px]">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-primary">Email</label>
+                <div className="flex rounded border border-gray-border-light focus-within:border-primary transition-colors">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => onEmailChange(e.target.value)}
+                    className="flex-1 rounded-l border-0 px-3 py-2.5 text-sm text-gray-primary focus:outline-none"
+                  />
+                  <div className="flex items-center rounded-r bg-gray-50 px-3 text-sm text-primary">
+                    Verified
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-primary">Phone</label>
+                <div className="flex rounded border border-gray-border-light focus-within:border-primary transition-colors">
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => onPhoneChange(e.target.value)}
+                    className="flex-1 rounded-l border-0 px-3 py-2.5 text-sm text-gray-muted focus:outline-none"
+                  />
+                  <div className="flex items-center rounded-r bg-gray-50 px-3 text-sm text-red-error">
+                    Verify
+                  </div>
                 </div>
               </div>
             </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-primary">Phone</label>
-              <div className="flex">
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => onPhoneChange(e.target.value)}
-                  className="flex-1 rounded-l border border-r-0 border-gray-border-light px-3 py-2.5 text-sm text-gray-muted focus:border-primary focus:outline-none"
-                />
-                <div className="flex items-center rounded-r border border-l-0 border-gray-border-light bg-gray-50 px-3 text-sm text-red-error">
-                  Verify
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

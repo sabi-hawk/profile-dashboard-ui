@@ -188,7 +188,7 @@ export function ChangePassword({
             className={cn(
               "absolute top-0 h-full w-[42px] cursor-pointer flex items-center justify-center shadow-md rounded transition-all duration-100 z-10",
               passwordStrength >= 90 
-                ? "bg-primary border-2 border-white" 
+                ? "bg-white border-2 border-primary" 
                 : "bg-white border border-gray-300"
             )}
             style={{ 
