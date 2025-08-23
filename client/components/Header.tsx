@@ -3,9 +3,11 @@ import { cn } from "@/lib/utils";
 interface HeaderProps {
   className?: string;
   onMenuClick?: () => void;
+  selectedAvatar?: number;
+  customAvatarUrl?: string | null;
 }
 
-export function Header({ className, onMenuClick }: HeaderProps) {
+export function Header({ className, onMenuClick, selectedAvatar, customAvatarUrl }: HeaderProps) {
   return (
     <header className={cn(
       "flex h-8 items-center justify-between px-8",
@@ -64,10 +66,24 @@ export function Header({ className, onMenuClick }: HeaderProps) {
 
         {/* Profile avatar */}
         <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal overflow-hidden">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="16" fill="#9BE6EF"/>
-            <image href="/placeholder.svg" x="0" y="0" width="32" height="32" />
-          </svg>
+          {customAvatarUrl ? (
+            <img 
+              src={customAvatarUrl}
+              alt="Profile" 
+              className="h-full w-full object-cover"
+            />
+          ) : selectedAvatar ? (
+            <img 
+              src={`/assets/avatar-${selectedAvatar}.png`}
+              alt="Profile" 
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="16" cy="16" r="16" fill="#9BE6EF"/>
+              <image href="/placeholder.svg" x="0" y="0" width="32" height="32" />
+            </svg>
+          )}
         </button>
       </div>
     </header>

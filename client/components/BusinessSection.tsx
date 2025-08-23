@@ -1,17 +1,46 @@
+import { useState } from "react";
+
 export function BusinessSection() {
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string>("/assets/logo.svg");
+
+  const handleLogoUpload = (file: File) => {
+    setLogoFile(file);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setLogoPreview(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="mt-[30px]">
       {/* Logo Upload */}
       <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
         <div className="h-[100px] w-[100px] rounded-lg flex items-center justify-center">
-          <img src="/assets/logo.svg" alt="LOGO" className="w-16 h-16" />
+          <img src={logoPreview} alt="LOGO" className="w-20 h-20" />
         </div>
         <div className="flex-1">
           <div className="mb-4 flex flex-wrap gap-4">
-            <button className="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 shadow">
+            <label className="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 shadow cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) handleLogoUpload(file);
+                }}
+                className="hidden"
+              />
               Upload Your Logo
-            </button>
-            <button className="rounded border border-red-500 bg-white px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50">
+            </label>
+            <button 
+              onClick={() => {
+                setLogoFile(null);
+                setLogoPreview("/assets/logo.svg");
+              }}
+              className="rounded border border-red-500 bg-white px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50"
+            >
               Reset
             </button>
           </div>

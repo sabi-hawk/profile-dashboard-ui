@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 
 interface SidebarProps {
   className?: string;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 interface NavItem {
@@ -173,27 +175,45 @@ const sidebarData: NavSection[] = [
   },
 ];
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, isCollapsed, onToggleCollapse }: SidebarProps) {
   return (
     <aside className={cn(
-      "fixed left-0 top-0 h-screen w-[274px] border-r border-gray-border bg-white",
+      "fixed left-0 top-0 h-screen border-r border-gray-border bg-white transition-all duration-300",
+      isCollapsed ? "w-[80px]" : "w-[274px]",
       className
     )}>
-      {/* Logo */}
-      <div className="flex h-[93px] items-center justify-center border-b border-gray-border px-[30px]">
-        <h1 className="text-[64px] font-bold leading-[140%] text-teal-light">
-          Logo
-        </h1>
+      {/* Header with Logo and Toggle Button */}
+      <div className="flex h-[93px] items-center justify-between border-b border-gray-border px-[30px]">
+        {!isCollapsed && (
+          <h1 className="text-[64px] font-bold leading-[140%] text-teal-light">
+            Logo
+          </h1>
+        )}
+        <button
+          onClick={onToggleCollapse}
+          className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.5 5H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2.5 10H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2.5 15H17.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
 
       {/* Navigation */}
       <div className="flex h-[calc(100vh-93px)] flex-col">
         <div className="flex-1 overflow-y-auto">
           {sidebarData.map((section, sectionIndex) => (
-            <div key={sectionIndex} className="border-b border-gray-border px-[30px] py-[30px]">
-              <div className="mb-3 text-xs font-semibold text-secondary">
-                {section.title}
-              </div>
+            <div key={sectionIndex} className={cn(
+              "border-b border-gray-border py-[30px] transition-all duration-300",
+              isCollapsed ? "px-4" : "px-[30px]"
+            )}>
+              {!isCollapsed && (
+                <div className="mb-3 text-xs font-semibold text-secondary">
+                  {section.title}
+                </div>
+              )}
               <div className="space-y-0">
                 {section.items.map((item) => (
                   <button
@@ -208,16 +228,20 @@ export function Sidebar({ className }: SidebarProps) {
                     <div className="flex h-6 w-6 items-center justify-center">
                       {item.icon}
                     </div>
-                    <span className="flex-1 truncate">{item.label}</span>
-                    {item.hasNotification && (
-                      <div className="h-2.5 w-2.5 rounded-full bg-red-accent" />
+                    {!isCollapsed && (
+                      <>
+                        <span className="flex-1 truncate">{item.label}</span>
+                        {item.hasNotification && (
+                          <div className="h-2.5 w-2.5 rounded-full bg-red-accent" />
+                        )}
+                      </>
                     )}
                   </button>
                 ))}
               </div>
               
-              {/* Submenu for book item */}
-              {section.title === "324" && (
+              {/* Submenu for book item - only show when not collapsed */}
+              {section.title === "324" && !isCollapsed && (
                 <div className="mt-2.5 space-y-0 pl-6">
                   <button className="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal text-secondary hover:bg-gray-50">
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -248,12 +272,7 @@ export function Sidebar({ className }: SidebarProps) {
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="border-t border-gray-border px-[30px] py-4">
-          <p className="text-sm text-secondary">
-            All rights reserved by © Name Since 2016 .
-          </p>
-        </div>
+
       </div>
     </aside>
   );

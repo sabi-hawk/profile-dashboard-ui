@@ -1,8 +1,21 @@
+import { useEffect } from "react";
+
 interface VerificationCardProps {
   isVisible: boolean;
+  onHide: () => void;
 }
 
-export function VerificationCard({ isVisible }: VerificationCardProps) {
+export function VerificationCard({ isVisible, onHide }: VerificationCardProps) {
+  useEffect(() => {
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        onHide();
+      }, 3000); // Hide after 3 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isVisible, onHide]);
+
   if (!isVisible) return null;
 
   return (

@@ -52,11 +52,17 @@ const avatars = [
   { id: 8, src: "/assets/avatar-8.png" },
 ];
 
-export function DashboardContent() {
+interface DashboardContentProps {
+  selectedAvatar: number;
+  onAvatarChange: (avatarId: number) => void;
+  customAvatarUrl: string | null;
+  onCustomAvatarChange: (url: string | null) => void;
+}
+
+export function DashboardContent({ selectedAvatar, onAvatarChange, customAvatarUrl, onCustomAvatarChange }: DashboardContentProps) {
   const [activeTab, setActiveTab] = useState("account");
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState<number>(1);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   
   // Form state
@@ -74,8 +80,19 @@ export function DashboardContent() {
 
   // Handle avatar selection
   const handleAvatarSelect = (avatarId: number) => {
-    setSelectedAvatar(avatarId);
+    onAvatarChange(avatarId);
     setShowAvatarModal(false);
+  };
+
+  // Handle file upload for avatar
+  const handleFileUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const uploadedAvatarUrl = e.target?.result as string;
+      onCustomAvatarChange(uploadedAvatarUrl);
+      console.log("File uploaded:", file.name);
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -107,8 +124,11 @@ export function DashboardContent() {
           <div className="mb-[30px] flex flex-col lg:flex-row gap-[30px]">
             <ChangeProfile
               selectedAvatar={selectedAvatar}
-              onAvatarChange={setSelectedAvatar}
+              onAvatarChange={onAvatarChange}
               onShowAvatarModal={() => setShowAvatarModal(true)}
+              onFileUpload={handleFileUpload}
+              customAvatarUrl={customAvatarUrl}
+              onClearCustomAvatar={() => onCustomAvatarChange(null)}
             />
             
             <ChangePassword
@@ -170,7 +190,10 @@ export function DashboardContent() {
       />
 
       {/* Verification Success Card */}
-      <VerificationCard isVisible={isPasswordVerified} />
+      <VerificationCard 
+        isVisible={isPasswordVerified} 
+        onHide={() => setIsPasswordVerified(false)} 
+      />
     </div>
   );
 }
