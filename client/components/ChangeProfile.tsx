@@ -67,7 +67,8 @@ export function ChangeProfile({ selectedAvatar, onAvatarChange, onShowAvatarModa
                             onClearCustomAvatar();
                           }
                         }}
-                        className="rounded-lg border border-gray-300 bg-white px-4 py-2.0 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        className="rounded-lg px-4 py-2.5 text-sm font-medium text-teal-700 hover:opacity-80 transition-opacity"
+                        style={{ backgroundColor: 'rgba(58, 194, 203, 0.17)' }}
                       >
                         Reset
                       </button>

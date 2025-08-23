@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface SidebarProps {
   className?: string;
@@ -176,6 +177,12 @@ const sidebarData: NavSection[] = [
 ];
 
 export function Sidebar({ className, isCollapsed, onToggleCollapse }: SidebarProps) {
+  const [activeItemId, setActiveItemId] = useState<string>("dashboard");
+
+  const handleItemClick = (itemId: string) => {
+    setActiveItemId(itemId);
+  };
+
   return (
     <aside className={cn(
       "fixed left-0 top-0 h-screen border-r border-gray-border bg-white transition-all duration-300",
@@ -218,9 +225,10 @@ export function Sidebar({ className, isCollapsed, onToggleCollapse }: SidebarPro
                 {section.items.map((item) => (
                   <button
                     key={item.id}
+                    onClick={() => handleItemClick(item.id)}
                     className={cn(
                       "flex w-full items-center gap-4 rounded px-3 py-2.5 text-left text-sm font-normal transition-colors",
-                      item.active 
+                      activeItemId === item.id
                         ? "bg-primary text-white" 
                         : "text-secondary hover:bg-gray-50"
                     )}
@@ -243,14 +251,26 @@ export function Sidebar({ className, isCollapsed, onToggleCollapse }: SidebarPro
               {/* Submenu for book item - only show when not collapsed */}
               {section.title === "324" && !isCollapsed && (
                 <div className="mt-2.5 space-y-0 pl-6">
-                  <button className="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal text-secondary hover:bg-gray-50">
+                  <button 
+                    onClick={() => handleItemClick("submenu-1")}
+                    className={cn(
+                      "flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal transition-colors",
+                      activeItemId === "submenu-1" ? "text-primary font-semibold" : "text-secondary hover:bg-gray-50"
+                    )}
+                  >
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M12 22.4504C17.5228 22.4504 22 17.9733 22 12.4504C22 6.92759 17.5228 2.45044 12 2.45044C6.47715 2.45044 2 6.92759 2 12.4504C2 17.9733 6.47715 22.4504 12 22.4504Z" stroke="currentColor" strokeWidth="1.5"/>
                       <path d="M12 6.45044V18.4504M15 9.95044C15 8.57044 13.657 7.45044 12 7.45044C10.343 7.45044 9 8.57044 9 9.95044C9 11.3304 10.343 12.4504 12 12.4504C13.657 12.4504 15 13.5704 15 14.9504C15 16.3304 13.657 17.4504 12 17.4504C10.343 17.4504 9 16.3304 9 14.9504" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                     </svg>
                     <span className="truncate">6666</span>
                   </button>
-                  <button className="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal text-primary hover:bg-gray-50">
+                  <button 
+                    onClick={() => handleItemClick("submenu-2")}
+                    className={cn(
+                      "flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal transition-colors",
+                      activeItemId === "submenu-2" ? "text-primary font-semibold" : "text-secondary hover:bg-gray-50"
+                    )}
+                  >
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M3.01 11.6704V16.1604C3.01 20.6504 4.81 22.4504 9.3 22.4504H14.69C19.18 22.4504 20.98 20.6504 20.98 16.1604V11.6704" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M12 12.4504C13.83 12.4504 15.18 10.9604 15 9.13044L14.34 2.45044H9.67L9 9.13044C8.82 10.9604 10.17 12.4504 12 12.4504Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -258,9 +278,15 @@ export function Sidebar({ className, isCollapsed, onToggleCollapse }: SidebarPro
                       <path d="M5.64 12.4504C7.29 12.4504 8.78 11.1104 8.94 9.46044L9.16 7.25044L9.64 2.45044H6.59C3.97 2.45044 2.97 3.45044 2.61 6.05044L2.34 8.80044C2.14 10.8104 3.62 12.4504 5.64 12.4504Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                       <path d="M12 17.4504C10.33 17.4504 9.5 18.2804 9.5 19.9504V22.4504H14.5V19.9504C14.5 18.2804 13.67 17.4504 12 17.4504Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    <span className="truncate text-primary font-semibold">77777</span>
+                    <span className="truncate">77777</span>
                   </button>
-                  <button className="flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal text-secondary hover:bg-gray-50">
+                  <button 
+                    onClick={() => handleItemClick("submenu-3")}
+                    className={cn(
+                      "flex w-full items-center gap-2 rounded px-3 py-2 text-left text-sm font-normal transition-colors",
+                      activeItemId === "submenu-3" ? "text-primary font-semibold" : "text-secondary hover:bg-gray-50"
+                    )}
+                  >
                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M6.3 21.9504C5.8 21.9504 5.375 21.7754 5.025 21.4254C4.675 21.0754 4.5 20.6504 4.5 20.1504V8.75044C4.5 8.25044 4.675 7.82544 5.025 7.47544C5.375 7.12544 5.8 6.95044 6.3 6.95044H8.25V6.70044C8.25 5.66711 8.61667 4.78377 9.35 4.05044C10.0833 3.31711 10.9667 2.95044 12 2.95044C13.0333 2.95044 13.9167 3.31711 14.65 4.05044C15.3833 4.78377 15.75 5.66711 15.75 6.70044V6.95044H17.7C18.2 6.95044 18.625 7.12544 18.975 7.47544C19.325 7.82544 19.5 8.25044 19.5 8.75044V20.1504C19.5 20.6504 19.325 21.0754 18.975 21.4254C18.625 21.7754 18.2 21.9504 17.7 21.9504H6.3ZM6.3 20.4504H17.7C17.7667 20.4504 17.8333 20.4171 17.9 20.3504C17.9667 20.2838 18 20.2171 18 20.1504V8.75044C18 8.68377 17.9667 8.61711 17.9 8.55044C17.8333 8.48377 17.7667 8.45044 17.7 8.45044H15.75V10.7004C15.75 10.9171 15.6793 11.0961 15.538 11.2374C15.396 11.3794 15.2167 11.4504 15 11.4504C14.7833 11.4504 14.6043 11.3794 14.463 11.2374C14.321 11.0961 14.25 10.9171 14.25 10.7004V8.45044H9.75V10.7004C9.75 10.9171 9.67933 11.0961 9.538 11.2374C9.396 11.3794 9.21667 11.4504 9 11.4504C8.78333 11.4504 8.60433 11.3794 8.463 11.2374C8.321 11.0961 8.25 10.9171 8.25 10.7004V8.45044H6.3C6.23333 8.45044 6.16667 8.48377 6.1 8.55044C6.03333 8.61711 6 8.68377 6 8.75044V20.1504C6 20.2171 6.03333 20.2838 6.1 20.3504C6.16667 20.4171 6.23333 20.4504 6.3 20.4504ZM9.75 6.95044H14.25V6.70044C14.25 6.06711 14.0333 5.53377 13.6 5.10044C13.1667 4.66711 12.6333 4.45044 12 4.45044C11.3667 4.45044 10.8333 4.66711 10.4 5.10044C9.96667 5.53377 9.75 6.06711 9.75 6.70044V6.95044ZM6 20.4504V8.45044V20.4504Z" fill="currentColor"/>
                     </svg>

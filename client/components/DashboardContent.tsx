@@ -64,6 +64,7 @@ export function DashboardContent({ selectedAvatar, onAvatarChange, customAvatarU
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
   const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   
   // Form state
   const [currentPassword, setCurrentPassword] = useState("••••••••••••••••");
@@ -93,6 +94,12 @@ export function DashboardContent({ selectedAvatar, onAvatarChange, customAvatarU
       console.log("File uploaded:", file.name);
     };
     reader.readAsDataURL(file);
+  };
+
+  // Handle save button click
+  const handleSave = () => {
+    setShowSaveSuccess(true);
+    setTimeout(() => setShowSaveSuccess(false), 3000);
   };
 
   return (
@@ -168,17 +175,20 @@ export function DashboardContent({ selectedAvatar, onAvatarChange, customAvatarU
           {/* Business Section */}
           <BusinessSection />
 
-          {/* Action Buttons */}
-          <div className="mt-8 flex justify-end gap-3">
-            <button className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary/90">
-              Save
-            </button>
-            <button className="rounded-lg bg-primary/17 px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/25">
-              Cancel
-            </button>
+            {/* Action Buttons */}
+            <div className="mt-8 flex justify-end gap-3">
+              <button 
+                onClick={handleSave}
+                className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary/90"
+              >
+                Save
+              </button>
+              <button className="rounded-lg bg-primary/17 px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/25">
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Avatar Selection Modal */}
       <AvatarModal
@@ -194,6 +204,23 @@ export function DashboardContent({ selectedAvatar, onAvatarChange, customAvatarU
         isVisible={isPasswordVerified} 
         onHide={() => setIsPasswordVerified(false)} 
       />
+
+      {/* Save Success Toast */}
+      {showSaveSuccess && (
+        <div className="fixed top-6 right-6 bg-green-500 rounded-lg p-4 text-white shadow-lg z-40 animate-in slide-in-from-top-2 duration-300">
+          <div className="flex items-center gap-3">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-white/20">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.00002 10.78L3.68668 8.46666C3.56203 8.34201 3.39297 8.27198 3.21668 8.27198C3.0404 8.27198 2.87133 8.34201 2.74668 8.46666C2.62203 8.59131 2.552 8.76037 2.552 8.93666C2.552 9.02394 2.56919 9.11038 2.6026 9.19102C2.636 9.27166 2.68496 9.34494 2.74668 9.40666L5.53335 12.1933C5.79335 12.4533 6.21335 12.4533 6.47335 12.1933L13.5267 5.13999C13.6513 5.01534 13.7214 4.84627 13.7214 4.66999C13.7214 4.49371 13.6513 4.32464 13.5267 4.19999C13.402 4.07534 13.233 4.00531 13.0567 4.00531C12.8804 4.00531 12.7113 4.07534 12.5867 4.19999L6.00002 10.78Z" fill="white"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium">Changes saved successfully!</p>
+              <p className="text-xs opacity-90">Your profile has been updated.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
