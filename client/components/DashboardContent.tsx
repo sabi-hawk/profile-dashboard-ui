@@ -337,7 +337,7 @@ export function DashboardContent() {
           </div>
 
           {/* Personal Details Section */}
-          <div className="rounded-xl border border-gray-border-light bg-white p-[30px] shadow-sm">
+          <div className="rounded-xl border border-gray-border-light bg-white p-[30px] shadow-sm mb-[30px]">
             <div className="mb-[30px]">
               <h3 className="mb-3 text-lg font-semibold text-gray-primary">
                 Personal Details
@@ -564,70 +564,64 @@ export function DashboardContent() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Business Info Section */}
-            <div className="mt-[30px] border-t border-gray-border-light pt-[30px]">
-              {/* Logo Upload */}
-              <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                <div className="h-[100px] w-[100px] rounded-lg bg-gradient-to-br from-teal-light to-teal flex items-center justify-center">
-                  <img src="/assets/logo.svg" alt="LOGO" className="w-12 h-12" />
-                </div>
-                <div className="flex-1">
-                  <div className="mb-4 flex flex-wrap gap-4">
-                    <button className="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 shadow">
-                      Upload Your Logo
-                    </button>
-                    <button className="rounded bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600">
-                      Reset
-                    </button>
-                  </div>
-                  <p className="text-sm text-gray-muted">
-                    Allowed JPG, GIF or PNG. Max size of 800K
-                  </p>
-                </div>
+          {/* Logo and Business Section - No Border */}
+          <div className="mt-[30px]">
+            {/* Logo Upload */}
+            <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+              <div className="h-[100px] w-[100px] rounded-lg flex items-center justify-center">
+                <img src="/assets/logo.svg" alt="LOGO" className="w-16 h-16" />
               </div>
-
-              {/* Business Card Preview */}
-              <div className="mb-6 w-[400px] rounded-lg bg-white shadow">
-                <div className="rounded-t-lg bg-blue-50 p-5">
-                  <h4 className="text-lg font-medium text-blue-600">{businessName}</h4>
-                  <p className="text-sm text-green-600">Storename.name.com</p>
+              <div className="flex-1">
+                <div className="mb-4 flex flex-wrap gap-4">
+                  <button className="rounded bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/90 shadow">
+                    Upload Your Logo
+                  </button>
+                  <button className="rounded border border-red-500 bg-white px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50">
+                    Reset
+                  </button>
                 </div>
-                <div className="p-5">
-                  <p className="text-sm text-gray-muted">
-                    {businessDescription}
-                  </p>
-                </div>
-              </div>
-
-              {/* Business Details Form */}
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  placeholder="Ex : Flowers Store"
-                  value={businessName}
-                  onChange={(e) => setBusinessName(e.target.value)}
-                  className="w-full rounded-lg border border-gray-border-light px-4 py-3 text-sm focus:border-primary focus:outline-none"
-                />
-                <textarea
-                  placeholder="Ex : A store specializing in the sale of natural roses and fast delivery within hours"
-                  rows={3}
-                  value={businessDescription}
-                  onChange={(e) => setBusinessDescription(e.target.value)}
-                  className="w-full rounded-lg border border-gray-border-light px-4 py-3 text-sm focus:border-primary focus:outline-none resize-none"
-                />
+                <p className="text-sm text-gray-muted">
+                  Allowed JPG, GIF or PNG. Max size of 800K
+                </p>
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="mt-8 flex justify-end gap-3">
-              <button className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary/90">
-                Save
-              </button>
-              <button className="rounded-lg bg-primary/17 px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/25">
-                Cancel
-              </button>
+            {/* Business Card Preview */}
+            <div className="mb-6 w-[400px]">
+              <div className="p-5">
+                <h4 className="text-lg font-medium text-blue-600 mb-1">Flowers Store</h4>
+                <p className="text-sm text-green-600 mb-2">Storename.name.com</p>
+                <p className="text-sm text-gray-muted">
+                  A store specializing in the sales of natural roses and fast delivery within hours
+                </p>
+              </div>
             </div>
+
+            {/* Business Details Form */}
+            <div className="space-y-4">
+              <input
+                type="text"
+                placeholder="Ex : Flowers Store"
+                className="w-full rounded-lg border border-gray-border-light px-4 py-3 text-sm focus:border-primary focus:outline-none"
+              />
+              <textarea
+                placeholder="Ex : A store specializing in the sale of natural roses and fast delivery within hours"
+                rows={3}
+                className="w-full rounded-lg border border-gray-border-light px-4 py-3 text-sm focus:border-primary focus:outline-none resize-none"
+              />
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="mt-8 flex justify-end gap-3">
+            <button className="rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white hover:bg-primary/90">
+              Save
+            </button>
+            <button className="rounded-lg bg-primary/17 px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/25">
+              Cancel
+            </button>
           </div>
         </div>
       </div>
