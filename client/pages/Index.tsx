@@ -20,22 +20,25 @@ export default function Index() {
       )}
 
       {/* Sidebar */}
-      <Sidebar 
+      <Sidebar
         className={`z-50 lg:z-auto transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
         isCollapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
       />
 
       {/* Main Content */}
-      <div className={`flex h-screen flex-col transition-all duration-300 ${
-        sidebarCollapsed ? 'lg:ml-[80px]' : 'lg:ml-[274px]'
-      }`}>
+      <div
+        className={`flex h-screen flex-col transition-all duration-300 ${
+          sidebarCollapsed ? "lg:ml-[80px]" : "lg:ml-[274px]"
+        }`}
+      >
         {/* Header */}
         <div className="py-4 lg:py-[30px] px-4 lg:px-0">
-          <Header 
-            onMenuClick={() => setSidebarOpen(!sidebarOpen)} 
+          <Header
+            onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+            onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
             selectedAvatar={selectedAvatar}
             customAvatarUrl={customAvatarUrl}
           />
@@ -43,7 +46,7 @@ export default function Index() {
 
         {/* Dashboard Content */}
         <div className="flex-1 px-4 lg:pr-8 lg:px-0">
-          <DashboardContent 
+          <DashboardContent
             selectedAvatar={selectedAvatar}
             onAvatarChange={setSelectedAvatar}
             customAvatarUrl={customAvatarUrl}
