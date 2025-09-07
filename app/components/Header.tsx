@@ -1,0 +1,161 @@
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+interface HeaderProps {
+  className?: string;
+  onMenuClick?: () => void;
+  onToggleCollapse?: () => void;
+  selectedAvatar?: number;
+  customAvatarUrl?: string | null;
+}
+
+export function Header({
+  className,
+  onMenuClick,
+  onToggleCollapse,
+  selectedAvatar,
+  customAvatarUrl,
+}: HeaderProps) {
+  const isMobile = useIsMobile();
+  return (
+    <header
+      className={cn("flex h-6 items-center justify-between px-8", className)}
+    >
+      {/* Left side - Menu button */}
+      <div className="flex items-center">
+        <button
+          aria-label="Toggle sidebar"
+          onClick={() => (isMobile ? onMenuClick?.() : onToggleCollapse?.())}
+          className="p-1 text-secondary hover:text-foreground"
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.25 17.625V16.125H20.75V17.625H3.25ZM3.25 12.75V11.25H20.75V12.75H3.25ZM3.25 7.875V6.375H20.75V7.875H3.25Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Right side - Controls */}
+      <div className="flex items-center gap-3 sm:gap-6">
+        {/* Dark mode toggle */}
+        <button className="hidden sm:block p-1 text-secondary hover:text-foreground">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17.7083 10C17.7083 12.0444 16.8962 14.005 15.4506 15.4506C14.005 16.8962 12.0443 17.7083 9.99996 17.7083V18.9583C14.9475 18.9583 18.9583 14.9475 18.9583 10H17.7083ZM9.99996 17.7083C7.95558 17.7083 5.99494 16.8962 4.54934 15.4506C3.10375 14.005 2.29163 12.0444 2.29163 10H1.04163C1.04163 14.9475 5.05246 18.9583 9.99996 18.9583V17.7083ZM2.29163 10C2.29163 7.95562 3.10375 5.99498 4.54934 4.54939C5.99494 3.10379 7.95558 2.29167 9.99996 2.29167V1.04167C5.05246 1.04167 1.04163 5.0525 1.04163 10H2.29163ZM12.9166 11.875C11.6458 11.875 10.427 11.3702 9.52841 10.4716C8.62979 9.57294 8.12496 8.35416 8.12496 7.08333H6.87496C6.87496 8.68568 7.51149 10.2224 8.64452 11.3554C9.77755 12.4885 11.3143 13.125 12.9166 13.125V11.875ZM17.0208 9.5575C16.5946 10.2649 15.9927 10.8501 15.2736 11.2562C14.5545 11.6623 13.7425 11.8754 12.9166 11.875V13.125C13.9578 13.1256 14.9815 12.8569 15.8882 12.3451C16.795 11.8333 17.554 11.0958 18.0916 10.2042L17.0208 9.5575ZM8.12496 7.08333C8.1246 6.25747 8.33781 5.44556 8.74388 4.72642C9.14995 4.00729 9.73508 3.40539 10.4425 2.97917L9.79579 1.90917C8.9042 2.44666 8.16671 3.20554 7.65494 4.11214C7.14316 5.01874 6.87447 6.04226 6.87496 7.08333H8.12496ZM9.99996 2.29167C9.91545 2.28968 9.83516 2.25432 9.77663 2.19333C9.74084 2.15853 9.71693 2.11333 9.70829 2.06417C9.70496 2.03833 9.70663 1.96333 9.79579 1.90917L10.4425 2.97917C10.8616 2.72583 10.9966 2.26167 10.9475 1.89667C10.8958 1.5175 10.5975 1.04167 9.99996 1.04167V2.29167ZM18.0916 10.2042C18.0366 10.2933 17.9616 10.295 17.9358 10.2917C17.8866 10.283 17.8414 10.2591 17.7456 10.1648C17.7103 10.0845 17.7083 10H18.9583C18.9583 9.4025 18.4825 9.10417 18.1033 9.0525C17.7383 9.00333 17.2741 9.13833 17.0208 9.5575L18.0916 10.2042Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+
+        {/* Repeat icon */}
+        <button className="hidden md:block p-1 text-secondary hover:text-foreground">
+          <img
+            src="/assets/repeat.svg"
+            alt="Repeat"
+            width="16"
+            height="16"
+            className="w-4 h-4"
+          />
+        </button>
+
+        {/* Shopping cart */}
+        <button className="p-1 text-secondary hover:text-foreground">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7.15 21.55C6.66667 21.55 6.25433 21.3793 5.913 21.038C5.571 20.696 5.4 20.2833 5.4 19.8C5.4 19.3167 5.571 18.904 5.913 18.562C6.25433 18.2207 6.66667 18.05 7.15 18.05C7.63333 18.05 8.04567 18.2207 8.387 18.562C8.729 18.904 8.9 19.3167 8.9 19.8C8.9 20.2833 8.729 20.696 8.387 21.038C8.04567 21.3793 7.63333 21.55 7.15 21.55ZM16.85 21.55C16.3667 21.55 15.9543 21.3793 15.613 21.038C15.271 20.696 15.1 20.2833 15.1 19.8C15.1 19.3167 15.271 18.904 15.613 18.562C15.9543 18.2207 16.3667 18.05 16.85 18.05C17.3333 18.05 17.7457 18.2207 18.087 18.562C18.429 18.904 18.6 19.3167 18.6 19.8C18.6 20.2833 18.429 20.696 18.087 21.038C17.7457 21.3793 17.3333 21.55 16.85 21.55ZM6.025 5.75L8.55 11.05H15.375C15.425 11.05 15.475 11.0373 15.525 11.012C15.575 10.9873 15.6083 10.95 15.625 10.9L18.325 6.025C18.3583 5.95833 18.3583 5.896 18.325 5.838C18.2917 5.77933 18.2417 5.75 18.175 5.75H6.025ZM5.3 4.25H19.175C19.5917 4.25 19.9043 4.425 20.113 4.775C20.321 5.125 20.3333 5.48333 20.15 5.85L16.925 11.65C16.775 11.9333 16.5627 12.154 16.288 12.312C16.0127 12.4707 15.7167 12.55 15.4 12.55H8.1L6.95 14.675C6.9 14.7583 6.896 14.8417 6.938 14.925C6.97933 15.0083 7.05 15.05 7.15 15.05H18.6V16.55H7.15C6.48333 16.55 5.98333 16.2627 5.65 15.688C5.31667 15.1127 5.30833 14.5417 5.625 13.975L7.05 11.4L3.4 3.75H1.5V2.25H4.35L5.3 4.25ZM8.55 11.05H15.55H8.55Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+
+        {/* Notifications with badge */}
+        <button className="relative p-1 text-secondary hover:text-foreground">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.25 18.875V17.375H6.25V10.125C6.25 8.75833 6.671 7.554 7.513 6.512C8.35433 5.47067 9.43333 4.8 10.75 4.5V3.8C10.75 3.45 10.871 3.154 11.113 2.912C11.3543 2.67067 11.65 2.55 12 2.55C12.35 2.55 12.6457 2.67067 12.887 2.912C13.129 3.154 13.25 3.45 13.25 3.8V4.5C14.5667 4.8 15.646 5.47067 16.488 6.512C17.3293 7.554 17.75 8.75833 17.75 10.125V17.375H19.75V18.875H4.25ZM12 21.8C11.5 21.8 11.075 21.625 10.725 21.275C10.375 20.925 10.2 20.5 10.2 20H13.8C13.8 20.5 13.625 20.925 13.275 21.275C12.925 21.625 12.5 21.8 12 21.8ZM7.75 17.375H16.25V10.125C16.25 8.94167 15.8373 7.93733 15.012 7.112C14.1873 6.28733 13.1833 5.875 12 5.875C10.8167 5.875 9.81267 6.28733 8.988 7.112C8.16267 7.93733 7.75 8.94167 7.75 10.125V17.375Z"
+              fill="currentColor"
+            />
+          </svg>
+          {/* Notification badge */}
+          <div className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-primary border-2 border-white"></div>
+        </button>
+
+        {/* Language/Translate */}
+        <button className="hidden md:block p-1 text-secondary hover:text-foreground">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M11.925 21.225L16.125 10.15H18.05L22.25 21.225H20.325L19.35 18.4H14.875L13.875 21.225H11.925ZM15.425 16.8H18.75L17.125 12.225H17.05L15.425 16.8ZM4.625 18.45L3.325 17.15L8 12.5C7.41667 11.85 6.90833 11.179 6.475 10.487C6.04167 9.79567 5.65833 9.06667 5.325 8.3H7.25C7.53333 8.86667 7.83333 9.37067 8.15 9.812C8.46667 10.254 8.84167 10.7167 9.275 11.2C9.95833 10.4667 10.525 9.71267 10.975 8.938C11.425 8.16267 11.8 7.33333 12.1 6.45H1.875V4.625H8.325V2.775H10.175V4.625H16.625V6.45H13.95C13.6167 7.55 13.175 8.61233 12.625 9.637C12.075 10.6623 11.3917 11.6333 10.575 12.55L12.8 14.8L12.1 16.7L9.25 13.85L4.625 18.45Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+
+        {/* Profile avatar */}
+        <button className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-teal-light to-teal overflow-hidden">
+          {customAvatarUrl ? (
+            <img
+              src={customAvatarUrl}
+              alt="Profile"
+              className="h-full w-full object-cover"
+            />
+          ) : selectedAvatar ? (
+            <img
+              src={`/assets/avatar-${selectedAvatar}.png`}
+              alt="Profile"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="16" cy="16" r="16" fill="#9BE6EF" />
+              <image
+                href="/placeholder.svg"
+                x="0"
+                y="0"
+                width="32"
+                height="32"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+    </header>
+  );
+}
