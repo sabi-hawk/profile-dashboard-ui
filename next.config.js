@@ -9,9 +9,6 @@ const nextConfig = {
   images: {
     domains: ["localhost"],
   },
-  // Enable static exports if needed for deployment
-  // output: 'export',
-  // trailingSlash: true,
 };
 
 module.exports = nextConfig;
